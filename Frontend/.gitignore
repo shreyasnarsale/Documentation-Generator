@@ -1,0 +1,54 @@
+# =========================
+# FRONTEND (Vite / React)
+# =========================
+
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =========================
+# BACKEND (Python / FastAPI)
+# =========================
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environments
+venv/
+backend-env/
+env/
+
+# Environment variables
+.env
+
+# Temp uploads
+temp_uploads/
+
+# =========================
+# Editor files
+# =========================
+
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

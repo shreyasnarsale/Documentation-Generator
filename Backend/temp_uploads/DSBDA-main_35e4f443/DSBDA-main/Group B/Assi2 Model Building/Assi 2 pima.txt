@@ -1,0 +1,77 @@
+Assi 2 pima 
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv("pima-indians-diabetes.csv")
+df
+
+data = df[8:]
+data
+
+data.columns = ['Number of times pregnant',
+              'Plasma glucose concentration a 2 hours in an oral glucose tolerance test',
+              'Diastolic blood pressure (mm Hg)',
+              'Triceps skin fold thickness (mm)',
+              '2-Hour serum insulin (mu U/ml)',
+              'Body mass index (weight in kg/(height in m)^2)',
+              'Diabetes pedigree function',
+              'Age (years)',
+              'Class variable (0 or 1)']
+data
+
+data = data.reset_index(drop=True)
+data
+
+data.isnull().sum()
+
+number = data.select_dtypes(include ="number")
+mv = number.mean()
+data = data.fillna(mv)
+
+data.isnull().sum()
+
+# Data Integration
+s1 = data[:int(len(df)/2)]
+s1
+
+s2 = data[int(len(df)/2):]
+s2
+
+s_merge = pd.concat([s1,s2], axis = 0)
+s_merge
+
+
+# Model Building use SVM
+from sklearn import svm
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X = data.drop(['Class variable (0 or 1)'], axis = 1)
+y = data['Class variable (0 or 1)']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+
+model = svm.SVC(kernel = 'linear')
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+accuracy_score(y_test, y_pred)
+
+# Model Build use Logistic Regression
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, ConfusionMatrixDisplay
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+accuracy_score(y_test, y_pred)
+
+ConfusionMatrixDisplay.from_predictions(y_test, y_pred)
+
+# Heatmap
+sns.heatmap(data.corr(), annot = True, cmap = 'coolwarm')
+plt.show()

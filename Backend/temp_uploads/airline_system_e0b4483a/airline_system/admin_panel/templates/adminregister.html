@@ -1,0 +1,10 @@
+<form method="POST">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <select name="role">
+        <option value="Admin">Admin</option>
+        <option value="Employee">Employee</option>
+    </select><br>
+    <button type="submit">Register</button>
+</form>

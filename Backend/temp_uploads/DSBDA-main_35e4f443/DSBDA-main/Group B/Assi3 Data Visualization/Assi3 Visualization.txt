@@ -1,0 +1,66 @@
+Assi3 Visualization
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data = pd.read_csv('Placement_Prediction_data.csv')
+data
+
+data = data.drop('Unamed: 0', axis=1)
+data
+data = data.drop('StudentId', axis=1)
+data
+
+data.isnull().sum()
+
+number = data.select_dtypes(include="number")
+mv = number.mean()
+data = data.fillna(mv)
+
+data.isnull().sum()
+
+data.columns
+
+sns.set_style("whitegrid")
+
+# Countplot(Internship)
+sns.countplot(x="Internship",hue="PlacementStatus",data=data)
+plt.show()
+
+# Scatterplot(CGPA vs Skills)
+sns.scatterplot(x="CGPA",y="Skills",hue="PlacementStatus",data=data)
+plt.show()
+
+# Barplot(PlacementStatus vs CGPA)
+sns.barplot(x="PlacementStatus",y="CGPA",data=data)
+plt.show()
+
+# Heatmap
+sns.heatmap(data.corr(numeric_only=True),annot=True, cmap = "coolwarm")
+plt.show()
+
+# Boxplot(PlacementStatus vs CGPA)
+sns.boxplot(x="PlacementStatus",y="CGPA",data=data)
+plt.show()
+
+# Violinplot(PlacementStatus vs CGPA)
+sns.boxplot(x="PlacementStatus",y="CGPA",data=data)
+plt.show()
+
+# Histplot(Communication Skills Rating)
+sns.hisplot(data["Communication skill rating"], bins = 20, kde=True)
+plt.show()
+
+# Pairplot(CGPA vs 12 th per vs Skills)
+sns.pairplot(data,vars=["CGPA","12th Percentage","Skills"],hue="PlacementStatus",palette="husl")
+
+# PieChart(PlacementStatus)
+data["PlacementStatus"].value_counts().plot.pie(autopct="%1.1f%%")
+plt.show()
+
+# LinePlot
+sns.lineplot(x="12th Percentage", y="CGPA", hue="PlacementStatus", data=data,marker="o")
+plt.show()
+

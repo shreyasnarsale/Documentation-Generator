@@ -1,0 +1,17 @@
+hadoop@mohit-VirtualBox:~$ hdfs dfs -mkdir -p /logg/input
+hadoop@mohit-VirtualBox:~$ hdfs dfs -put logip.txt /logg/input
+hadoop@mohit-VirtualBox:~$ hdfs dfs -ls /logg/input
+Found 1 items
+-rw-r--r--   1 hadoop supergroup     143084 2025-05-01 17:43 /logg/input/logip.txt
+
+hadoop@mohit-VirtualBox:~$ jar tf log.jar
+META-INF/MANIFEST.MF
+.classpath
+.project
+log/My_Mapper.class
+log/Driver.class
+log/My_Reducer.class
+
+hadoop@mohit-VirtualBox:~$ hadoop jar log.jar log.Driver /logg/input /logg/output
+
+hdfs dfs -cat /logg/output/part-r-00000

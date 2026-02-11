@@ -1,0 +1,76 @@
+<!-- manage_employees.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Employees</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}"> <!-- Link to your CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #e0001a;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        input {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #e0001a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b30015;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Manage Employees</h1>
+    
+    <form method="POST" action="{% url "add_employee" %}">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Employee Name" required>
+        <input type="email" name="email" placeholder="Employee Email" required>
+        <input type="password" name="password" placeholder="Employee password" required>
+        <button type="submit">Add Employee</button>
+    </form>
+
+    <h2>Existing Employees</h2>
+    <ul>
+        {% for employee in employees %}
+            <li><h3><br>Name : {{ employee.name }} <br> Email : ({{ employee.email }}) <br>Password : [ {{employee.password}}]<br></h3>
+                <a href="{% url 'update_employee' employee.id %}"> <button>Update</button></a> 
+                <a href="{% url 'remove_employee' employee.id %}"> <button>Delete</button><br></a> 
+            </li>
+        {% empty %}
+            <li>No employees found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

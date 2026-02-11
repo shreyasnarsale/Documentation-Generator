@@ -1,0 +1,235 @@
+{% extends "home.html" %}
+{% load static %}
+
+
+<style>
+  {% block background %}
+   .background-container {
+      background-color: white;
+      font-family: Arial, sans-serif;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+  }
+  {% endblock %}
+
+  {% block main_css %}
+  
+  .main-content {
+      text-align: center;
+      padding: 150px 20px 100px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      {% comment %} position: relative;
+      z-index: 1; {% endcomment %}
+  }
+{% comment %} 
+  .main-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 1);
+      z-index: -1;
+  } {% endcomment %}
+
+
+
+  {% endblock %}
+ 
+
+</style>
+
+{% block content %}
+<style>
+
+  .additional-new-box {
+    border: 1px solid black;
+    padding: 5px 10px;
+    margin: 40px auto;
+    width: 37.7%;
+    max-width: 600px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 168px;
+    margin-bottom: 0px;
+    
+}
+.additional-new-box .subheader {
+    flex: 1;
+    text-align: left;
+    padding: 0 10px;
+}
+
+.large-box {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 20px;
+  width: 80%;
+  max-width: 1200px;
+  border: 1px solid black;
+  margin: 20px auto;
+  text-align: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.location-time {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.location {
+  font-weight: bold;
+  font-size: 20px;
+}
+.time {
+  font-size: 18px;
+  margin-top: 5px;
+}
+.arrow {
+  position: relative;
+  font-size: 24px;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: center;
+  width: 100%;
+}
+.duration {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.large-box-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 40%;
+  max-width: 1200px;
+}
+.fare-box {
+  text-align: right;
+  font-size: 24px;
+  font-weight: bold;
+}
+.row-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 75.5%;
+  max-width: 1200px;
+  border: 1px solid black;
+  margin: 20px auto;
+  text-align: center;
+  margin-top: 0px;
+}
+.row-item {
+  flex: 1;
+  text-align: center;
+}
+
+</style>
+
+<div style="text-align:center;">
+<h2>Complete Your Payment</h2>
+<br>
+<form action="{% url 'payment_success'  %}" method="POST">
+    {% csrf_token %}
+
+    <p>Booking_id : {{booking_id}}   </p> 
+
+    <br>
+
+        
+    <div class="large-box-container">
+      <div class="large-box">
+          <div class="location-time">
+              <div class="location">{{f.departure_city}}</div>
+              <div class="time">{{f.departure_time}}</div>
+          </div>
+          <div class="arrow">
+              <div class="duration">{{f.duration}}</div> <!-- Text directly above the arrow -->
+              ---------→
+          </div>
+          <div class="location-time">
+              <div class="location">{{f.arrival_city}}</div>
+              <div class="time">{{f.arrival_time}}</div>
+          </div>
+      </div>
+      
+  </div>
+  
+  <div class="large-box-container"> <div class="large-box">
+      <b>
+       Price/passsenger : INR {{f.price}}
+      </b> </div>
+   
+  </div>
+  <div class="large-box-container"> <div class="large-box">
+      <b>
+      Total passsengers :  {{b.num_passengers}}
+      </b> </div>
+   
+  </div>
+
+  <div class="large-box-container"> <div class="large-box">
+    <b>  Checked baggage: 23 kg </b>
+   </div>
+   </div> 
+
+  <div class="large-box-container"> <div class="large-box">
+   <b> Extra baggage: {{b.extra_baggage}} kg </b>
+  </div>
+  </div>
+  <div class="large-box-container"> <div class="large-box">
+      <b>Seat no.: {{b.seat_number}} </b> 
+  </div>
+</div>
+  <div class="large-box-container"> <div class="large-box">
+      <b >Refund fee : INR {{refund_fee}}  </b> 
+  </div>
+</div>
+
+  <div class="large-box-container"> <div class="large-box">
+      <b><label for="amount">Amount to Pay : </label>
+        <input type="text" name="amount" value="{{total_amount}}" readonly></b> 
+  </div>
+</div>
+    
+
+    <br>
+    <script
+      src="https://checkout.razorpay.com/v1/checkout.js"
+      data-key="{{ razorpay_key_id }}"
+      data-amount="{{ amount }}"
+      data-currency="INR"
+      data-order_id="{{ razorpay_order_id }}"
+      data-buttontext="Pay Now"
+      data-name="Air India"
+      data-description="Payment for booking"
+      data-prefill.name="Test User"
+      data-prefill.email="testuser@example.com"
+      data-theme.color="#F37254">
+    </script>
+    <input type="hidden" name="order_id" value="{{ razorpay_order_id }}">
+    <input type="hidden" name="booking_id" value="{{ booking_id }}">
+  </form>
+  
+</div>
+
+<br><br>
+{% endblock %}
+

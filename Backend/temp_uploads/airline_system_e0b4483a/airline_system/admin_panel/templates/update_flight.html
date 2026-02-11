@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Flight</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #e0001a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #e0001a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #b30015;
+        }
+
+        .success-message {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add New Flight</h1>
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="flight_number">Flight Number</label>
+                <input type="text" value="{{flight.flight_number}}" name="flight_number" id="flight_number" placeholder="Enter Flight Number" required>
+            </div>
+            <div class="form-group">
+                <label for="departure_city">Departure City</label>
+                <input type="text" value="{{flight.departure_city}}" name="departure_city" id="departure_city" placeholder="Enter Departure City" required>
+            </div>
+            <div class="form-group">
+                <label for="arrival_city">Arrival City</label>
+                <input type="text" value="{{flight.arrival_city}}" name="arrival_city" id="arrival_city" placeholder="Enter Arrival City" required>
+            </div>
+            <div class="form-group">
+                <label for="departure_time">Departure Time</label>
+                <input type="datetime-local" value="{{flight.departure_time}}" name="departure_time" id="departure_time" required>
+            </div>
+            <div class="form-group">
+                <label for="arrival_time">Arrival Time</label>
+                <input type="datetime-local" value="{{flight.arrival_time}}" name="arrival_time" id="arrival_time" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" value="{{flight.price}}" name="price" id="price" placeholder="Enter Price" required>
+            </div>
+            <div class="form-group">
+                <label for="total_seats">Total Seats</label>
+                <input type="number" value="{{flight.total_seats}}" name="total_seats" id="total_seats" placeholder="Enter Total Seats" required>
+            </div>
+            <button type="submit">Add Flight</button>
+        </form>
+        
+        <!-- Display success message if it exists -->
+        {% if success_message %}
+            <div class="success-message">{{ success_message }}</div>
+        {% endif %}
+
+        <a href="{% url 'admin_dashboard' %}" class="back-link">Back to Dashboard</a>
+    </div>
+</body>
+</html>

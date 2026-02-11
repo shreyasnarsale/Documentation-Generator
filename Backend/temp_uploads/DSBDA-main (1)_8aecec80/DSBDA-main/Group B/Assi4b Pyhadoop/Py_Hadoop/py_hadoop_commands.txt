@@ -1,0 +1,13 @@
+cat more.txt | python3 mapper.py
+cat more.txt | python3 mapper.py | sort | python3 reducer.py
+hdfs dfs -mkdir -p /shreya
+hdfs dfs -ls /
+hdfs dfs -put more.txt /shreya
+hdfs dfs -ls /shreya
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.6.jar \
+-input /shreya/more.txt \
+-output /extra \
+-mapper "python3 mapper.py" \
+-reducer "python3 reducer.py" \
+-file mapper.py \
+-file reducer.py

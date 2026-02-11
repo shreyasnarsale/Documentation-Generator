@@ -1,0 +1,9 @@
+wordcount command
+
+hdfs dfs -mkdir -p /wordcount/input
+hdfs dfs -put more.txt /wordcount/input
+hdfs dfs -ls /wordcount/input
+jar tf word.jar
+
+hadoop jar word.jar wordcount.Driver /wordcount/input /wordcount/output
+hdfs dfs -cat /wordcount/output/part-r-00000

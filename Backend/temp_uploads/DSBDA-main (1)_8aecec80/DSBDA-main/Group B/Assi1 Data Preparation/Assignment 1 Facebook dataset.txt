@@ -1,0 +1,111 @@
+Assignment 1 Facebook dataset
+
+import numpy as np
+import pandas as pd
+import matploltlib.pyplot as plt
+import seaborn as sns
+
+data = pd.read_csv("dataset_Facebook.csv",sep=";")
+data
+
+data.isnull().sum()
+
+number = data.select_dtypes(include="number")
+mv = number.mean()
+data = data.fillna(mv)
+
+data.isnull().sum()
+
+data.columns
+
+# Like greater than 100
+s1 = data[data["like"] >100]
+s1
+
+#Check Type with Photo
+s2 = data[data["Type"] == "Photo"]
+s2
+
+# Post weekday less than 6
+s3 = data[data['Post Weekday'] < 6]
+s3
+
+# Columns add Lifetime post total impression,like,share,comment
+s4 = data[["Lifetime Post Total Impression","like","share","comment"]]
+s4
+
+# Columns add Lifetime post total impression,like,Category,Type
+s5 = data[["Lifetime Post Total Impression","like","Category","Type"]]
+s5
+
+# Check 100 rows
+s6 = data.iloc[:100]
+s6
+
+# two columns with loc type and like
+s7 = data.loc[:,['Type','like']]
+s7
+
+#Merge with row
+
+merged_row_wise = pd.concat([s1,s2], axis=0)
+merged_row_wise
+
+# Merge column wise
+merged_column_wise = pd.merge(s4,s5 , on = ["Lifetime Post Total Impression","like"],how = 'left')
+merged_column_wise
+
+# sort on like
+sort = data.sort_values(by = "like" , ascending = True)
+sort
+
+sort = data.sort_values(by = "like" , ascending = False)
+sort
+
+# Transport
+transport = data.T
+transport
+
+# Shape and reshape
+
+data.shape
+
+melt_data = data.melt(id_vars = ['Type'] , value_vars = ['like','share','comment'])
+melt_data
+
+melted_data = melt_data.drop_duplicates(subset=['Type','variable])
+melted_data
+
+pivoted_data = melted_data.pivot(index="Type",columns= 'varibale',values = 'value')
+pivoted_data
+
+
+# Countplot
+
+sns.countplot(x='Category', data=data, palette='viridis')
+plt.show()
+
+# Scatterplot
+
+sns.scatterplot(x="like", y="share", data=data, hue="Type")
+plt.show()
+
+# Pairplot
+sns.pairplot(df[['like', 'share', 'comment']])
+plt.show()
+
+# Heatmap
+
+numerical_df = df.select_dtypes(include=[np.number])
+sns.heatmap(numerical_df.corr(), annot=True, cmap='coolwarm', linewidth=2)
+plt.show()
+
+# Piechart
+df['Category'].value_counts().plot(kind='pie', autopct='%1.1f%%')
+plt.title("Category Distribution")
+plt.show()
+
+
+The melt function particularly with the Pandas library in Python, is used to transform wide-format data into a long format. This transformation makes it easier to analyze and visualize data, especially when you have multiple columns representing measurements of the same variable.
+
+

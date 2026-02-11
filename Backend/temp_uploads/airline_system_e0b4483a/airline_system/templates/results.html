@@ -1,0 +1,307 @@
+{% extends "home.html" %}
+{% load static %}
+
+
+<style>
+    {% block background %}
+     .background-container {
+        background-color: white;
+        font-family: Arial, sans-serif;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    {% endblock %}
+
+    {% block main_css %}
+    
+    .main-content {
+        text-align: center;
+        padding: 150px 20px 100px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        {% comment %} position: relative;
+        z-index: 1; {% endcomment %}
+    }
+{% comment %} 
+    .main-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 1);
+        z-index: -1;
+    } {% endcomment %}
+
+
+
+    {% endblock %}
+   
+
+</style>
+    
+{% block content %}
+
+    <style>
+        .subheader-box {
+            border: 2px solid black; /* Thin black border around the box */
+            padding: 17px 10px; /* Reduced padding inside the box */
+            margin: 20px auto; /* Center the box horizontally */
+            width: 100%; /* Adjust width to control the size of the box */
+            max-width: 1500px; /* Optional: Maximum width */
+            font-size: 20px;
+        }
+        .subheader-container {
+            display: flex;
+            justify-content: space-between; /* Evenly space the items */
+            align-items: center; /* Center items vertically */
+            margin-left:0px;
+            font-size: 20px;
+            
+        }
+        .subheader {
+            color: black;
+            font-size: 1.3em;
+            flex: 1; /* Make each heading take up equal space */
+            text-align: left; /* Center text within each heading */
+            padding: 0 0px; /* Padding to reduce space between items and edges */
+            font-size: 20px;
+            
+        }
+        /* Adjustments for the start and end of the box */
+        .subheader:first-child {
+            padding-left: 0; /* Reduce space at the start */
+            margin-left:100px;
+            font-size: 20px;
+            margin-right:130px;
+
+        }
+        .subheader:last-child {
+            padding-right: 0; /* Reduce space at the end */
+            font-size: 20px;
+        }
+        /* Add spacing between the two boxes */
+        .additional-box {
+            border: 2px solid black; /* Thin black border around the new box */
+            padding: 5px 10px; /* Same padding as the previous box */
+            margin: 40px auto; /* Increased margin for space between boxes */
+            width: 77%; /* Same width as the previous box */
+            max-width: 1200px; /* Optional: Maximum width */
+            height: 50px;
+            display: flex; /* Ensure items are laid out in a row */
+            align-items: center; /* Center items vertically */
+            justify-content: center; /* Center items horizontally */
+            width: 100%; /* Adjust width to control the size of the box */
+            max-width: 1500px; /* Optional: Maximum width */
+            font: size 1.2em;
+        }
+        .subheader-black {
+    color: black;
+    font-size: 20px;
+    flex: 1;
+    cursor: pointer;
+    text-align: center;
+    padding: 0 10px;
+    position: relative; /* Positioning for the line */
+    
+}
+
+.subheader-black::after {
+    content: '';
+    display: block;
+    width: 100%; /* Full width of the heading */
+    height: 2px; /* Height of the line */
+    background: black; /* Color of the line */
+    position: absolute; /* Absolute positioning */
+    bottom: 0; /* Position it at the bottom of the heading */
+    left: 0; /* Align it to the left */
+    transform: scaleX(0); /* Start hidden */
+    transition: transform 0.3s ease; /* Smooth transition */
+    
+}
+
+/* Hover effect */
+.subheader-black:hover::after,
+.subheader-black:active::after {
+    transform: scaleX(1); /* Show the line on hover and when active */
+}
+
+        /* Style for the dividing line */
+        .divider {
+            border-left: 2px solid black; /* Vertical line */
+            height: 115%; /* Full height of the box */
+            margin: 0 10px; /* Space around the line */
+        }
+        .additional-box .subheader {
+            flex: 1; /* Make each heading take up equal space */
+            text-align: center; /* Center text within each heading */
+        }
+        /* Style for the buttons */
+        .button {
+            background-color: red; /* Red background */
+            color: white; /* White text */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 5px 10px; /* Padding inside the button */
+            margin: 0 5px; /* Reduced margin between buttons */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 1.5em; /* Smaller text size */
+        }
+        /* Style for the new large boxes */
+        .large-box {
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center;     /* Centers content vertically */
+    padding: 20px;          /* Padding inside the box */
+    width: 100%;            /* Set width to 100% */
+    max-width: 1800px;     /* Max width to align with other boxes */
+    border: 1px solid black; /* Changed border to 1px for consistency */
+    position: relative;     /* For positioning the arrow */
+    text-align: center;     /* Centers text within the box */
+    font-size: 1.7em;       /* Increase font size here */
+    margin: 0 auto;         /* Center the box horizontally */
+    box-sizing: border-box; /* Ensures padding is included in width */
+}
+.price-text {
+    font-size: 1em; /* Reduce the font size for INR */
+}
+
+        .location-time {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .location {
+            font-weight: bold;
+            font-size: 1em;
+        }
+        .time {
+            font-size: 18px;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        .arrow {
+            position: relative;
+            font-size: 24px;
+            margin-left: 0px;
+            margin-right: 0px;
+            text-align: center;
+            color: black;
+            width: 100%; /* Make the arrow span the width */
+            font-size:0.8em;
+        }
+        /* New CSS for the duration text above the arrow */
+        .duration {
+            font-size: 18px; /* Adjust font size to your preference */
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px; /* Space between time and arrow */
+        }
+        .large-box-container {
+            display: flex; /* Lay out boxes in a row */
+            justify-content: space-between; /* Space out the boxes */
+            margin: 0 auto; /* Center the container horizontally */
+            width: 100%; /* Same width as previous boxes */
+            max-width: 1800px; /* Optional: Maximum width */
+            
+        }
+        
+        /* Button styling */
+        .continue-button {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-left:60px ;
+            margin-right: 10%; /* Align button to the right */
+            float: right; /* Float the button to the right */
+        }
+
+    </style>
+
+    <div class="subheader-box">
+        <div class="subheader-container">
+            <div class="subheader-black">Flights</div>
+            <div class="subheader-black">Passengers</div>
+            <div class="subheader-black">Options</div>
+            <div class="subheader-black">Payment</div>
+            <div class="subheader-black">Confirm</div>
+        </div>
+    </div>
+
+    {% if items %}
+
+    <div class="additional-box">
+        <div class="subheader">From : {{flight.departure_city}} ,  To : {{flight.arrival_city}}</div>
+        <div class="divider"></div> <!-- Dividing line -->
+        <div class="subheader" >Sort by :</div>
+        <button class="button">Price</button>
+        <button class="button">Arrival Time</button>
+    </div>
+
+
+    <div class="large-box-container">
+        <div class="large-box">
+            <b>FLIGHTS </b>
+            
+        </div>
+        <div class="large-box">
+            <b> PRICE </b>
+        </div>
+        
+        
+    </div>
+    
+    
+    {% for item in items  %}
+    
+    <div class="large-box-container">
+        <div class="large-box">
+            <div class="location-time">
+                <div class="location">{{item.departure_city}}</div>
+                <div class="time">{{item.departure_time}}</div>
+            </div>
+            <div class="arrow">
+                <div class="duration">{{item.duration}}</div> <!-- Text directly above the arrow -->
+                ---------→
+            </div>
+            <div class="location-time">
+                <div class="location">{{item.arrival_city}}</div>
+                <div class="time">{{item.arrival_time}}</div>
+            </div>
+        </div>
+        <div class="large-box"> 
+            <b class="price-text">INR {{item.price}}</b> 
+            <a href="{% url 'book' item.id %}"> 
+                <button class="continue-button"> Book </button>
+            </a>
+        </div>
+    
+    </div>
+    {% endfor %}
+    {% else %}
+        <br><br><h3 style="text-align:center;">No Flights Available for that route 😞😞. </h3>
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+    {% endif %}
+
+    
+    <br><br>
+    
+{% endblock %}
+
+    
+

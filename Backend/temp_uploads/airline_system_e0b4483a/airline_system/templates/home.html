@@ -1,0 +1,524 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air India - Book a Flight</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        body, html {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            color: #333;
+        }
+        
+        {% block background %}
+        .background-container {
+            background-image: url('https://airindia.scene7.com/is/image/airindia/1920x750-Web-Vistara_merger:Large1x');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        {% endblock %}
+        
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            /* padding: 15px 0; */
+            color: #e0001a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            {% comment %} position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000; {% endcomment %}
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        header h1 {
+            margin-left: 30px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        header h1 i {
+            margin-left: 10px;
+            font-size: 1.2em;
+        }
+
+        header .nav-container {
+            flex-grow: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        header nav a {
+            color: #e0001a;
+            margin: 0 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #e0001a;
+            transition: width 0.3s ease;
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+        }
+
+        .right-nav {
+            margin-right: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .right-nav .search-icon {
+            font-size: 1.5em;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .right-nav .search-icon:hover {
+            color: #b30015;
+        }
+
+        .right-nav .login-btn {
+            padding: 10px 25px;
+            background-color: #e0001a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size:15px;
+        }
+
+        .right-nav .adminlogin-btn {
+            padding: 5px 10px;
+            background-color: #e0001a;
+            color: white;
+            border: none;
+            border-radius: 22px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left:1775px;
+            margin-top: 10px;
+            font-size:15px;
+        }
+
+        .right-nav .login-btn:hover {
+            background-color: #b30015;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(224, 0, 26, 0.3);
+        }
+
+        .right-nav .adminlogin-btn:hover {
+            background-color: #b30015;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(224, 0, 26, 0.3);
+        }
+
+        {% block main_css %}
+        
+        .main-content {
+            text-align: center;
+            padding: 10px 20px 100px;
+            color: white;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* background: rgba(0, 0, 0, 0.5); */
+            z-index: -1;
+        }
+
+        .main-content h1 {
+            color: orange ;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .main-content p {
+            color: #ffffff;
+            font-size: 1.8em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+
+        {% endblock %}
+        
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* .form-container form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: center;
+        }
+
+        .form-container select,
+        .form-container button {
+            padding: 15px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            color: #333;
+            transition: all 0.3s ease;
+        } */
+
+        .form-container form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ensure three equal columns */
+    gap: 20px;
+    align-items: center;
+}
+
+.form-container select, 
+.form-container input[type="date"], 
+.form-container button {
+    padding: 15px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    transition: all 0.3s ease;
+    align-items: center;
+}
+
+.form-container input[type="date"] {
+    padding: 13px 15px; /* Adjust padding if needed */
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    transition: all 0.3s ease;
+    align-items: center;
+}
+
+
+        .form-container select:focus,
+        .form-container button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(224, 0, 26, 0.2);
+        }
+
+        .form-container button {
+            background-color: #e0001a;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            align-items:center;
+        }
+
+        .form-container button:hover {
+            background-color: #b30015;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(224, 0, 26, 0.3);
+        }
+
+        footer {
+            /* background-color: rgba(51, 51, 51, 0.9);
+            color: white;
+            padding: 40px 10%;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; */
+
+            background-color: rgba(51, 51, 51, 0.8);
+    color: white;
+    padding: 0px  10%;
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+        }
+
+        footer .section {
+            /* flex: 1; */
+            margin-right: 40px;
+            margin-bottom: 20px;
+        }
+
+        footer .section:last-child {
+            margin-right: 0;
+        }
+
+        footer h3 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        footer a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #e0001a;
+        }
+
+        footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        footer .social-icons a {
+            font-size: 1.5em;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 10px 0;
+            }
+
+            header h1 {
+                margin-bottom: 10px;
+            }
+
+            header nav {
+                margin-bottom: 10px;
+            }
+
+            header nav a {
+                margin: 0 10px;
+                font-size: 16px;
+            }
+
+            .right-nav {
+                margin-right: 0;
+            }
+
+            .main-content {
+                padding: 120px 20px 80px;
+            }
+
+            .main-content h1 {
+                font-size: 2.5em;
+            }
+
+            .main-content p {
+                font-size: 1.5em;
+            }
+
+            footer {
+                flex-direction: column;
+                padding: 30px 5%;
+            }
+
+            footer .section {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-container">
+        <header>
+            <h1>AIR INDIA <i class="fas fa-plane"></i></h1>
+            <div class="nav-container">
+                <nav>
+                    <a href="{% url "home" %}">Book</a>
+                    <a href="{% url 'manage' None %}">Manage</a>
+                    <a href="{% url "experience" %}">Experience</a>
+                    <a href="{% url "destination" %}">Destination</a>
+                    <a href="{% url "loyalty" %}">Loyalty</a>
+                    <a href="{% url "help" %}">Help</a>
+                </nav>
+            </div>
+            <div class="right-nav">
+                <i class="fas fa-search search-icon"></i>
+                {% if user %}
+                <a href="{% url "logout" %}"><button class="login-btn">Logout</button></a>
+                {% else %}<a href="{% url "login" %}"><button class="login-btn">Login</button></a>
+                {% endif %}
+                
+            </div>
+        </header>
+
+        <div class="right-nav">
+            
+            <a href="{% url "logout" %}"><button class="adminlogin-btn">Logout</button></a>
+           <!-- <a href="#"><button class="adminlogin-btn">Admin Login</button></a>  -->
+            
+            
+        </div>
+        
+        {% block content %}              
+        <div class="main-content">
+
+            
+            <div>
+            <h1>Embark on Your Journey</h1>
+            <p>Discover the world with Air India. Book your flight today and experience luxury in the skies.</p>
+
+            <div class="form-container">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <select id="departure" name="departure_city" required >
+                        <option value="">From</option>
+                        {% for udc in unique_departure_cities %}
+                            <option value="{{udc}}">{{udc}}</option>
+                        {% endfor %}
+                        
+                    
+                    </select>
+
+                    <select id="arrival" name="arrival_city" required>
+                        <option value="">To</option>
+                        {% for uac in unique_arrival_cities %}
+                        <option value="{{uac}}">{{uac}}</option>
+                        
+                        {% endfor %}
+                        
+                    </select>
+
+                    
+                    <input id="date" type="date">
+                    <span style="display: inline-block; width: 20px;"></span>
+                    
+                    
+                    
+                    <!-- <select id="date" name="date">
+                        <option value="">Departure Date</option>
+                        <option value="today">Today</option>
+                        <option value="tomorrow">Tomorrow</option>
+                        <option value="next-week">Next Week</option>
+                    </select> -->
+
+                    
+
+                    <button type="submit">Search Flights</button>
+                </form>
+            </div>
+            </div>
+           <br><br><br>
+        
+        </div>
+
+        
+
+        <!-- <div class="spline">
+
+             <iframe src='https://my.spline.design/boeing787inthesky-9fabe6053ef974280d1383dd8d5233b3/' frameborder='0' width='100%' height='300 px'>
+                
+            </iframe> 
+        </div> -->
+
+        {% endblock %}
+        
+
+
+        
+        <footer>
+            <div class="section">
+                <h3>Quick Links</h3>
+                <a href="#">About Us</a>
+                <a href="#">Careers</a>
+                <a href="#">Media Center</a>
+                <a href="#">Help</a>
+            </div>
+            <div class="section">
+                <h3>Travel Information</h3>
+                <a href="#">Flight Status</a>
+                <a href="#">Baggage</a>
+                <a href="#">Travel Requirements</a>
+                <a href="#">Airport Information</a>
+            </div>
+            <div class="section">
+                <h3>Connect with us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+
+</html> 

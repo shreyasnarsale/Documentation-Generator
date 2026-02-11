@@ -1,0 +1,162 @@
+{% extends "home.html" %}
+{% load static %}   
+
+<style>
+    {% block background %}
+    .background-container {
+        background-color: white;
+        font-family: Arial, sans-serif;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    {% endblock %}
+  
+    {% block main_css %}
+    .main-content {
+        text-align: center;
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .ticket-container {
+        width: 80%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 2px solid black;
+        background-color: #f8f8f8;
+        text-align: left;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .ticket-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid black;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .ticket-header img {
+        max-height: 50px;
+    }
+
+    .ticket-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .info-block {
+        width: 48%;
+    }
+
+    .info-block p {
+        margin: 5px 0;
+    }
+
+    .ticket-footer {
+        text-align: center;
+        margin-top: 30px;
+        border-top: 2px solid black;
+        padding-top: 10px;
+        font-size: 12px;
+    }
+
+    .print-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .print-button:hover {
+        background-color: #45a049;
+    }
+
+    @media print {
+        .print-button {
+            display: none;
+        }
+        body {
+            background: white;
+        }
+    }
+  
+    {% endblock %}
+</style>
+
+{% block content %}
+<h1>Payment Successful!</h1>
+<p>Your payment was successfully processed. Below is your flight ticket.</p>
+
+<!-- Ticket Layout -->
+<div class="ticket-container">
+    <div class="ticket-header">
+        <div>
+            <h2>Air India</h2>
+            <p>Booking Reference: <strong>{{ booking_id }}</strong></p>
+        </div>
+        <div>
+           <b style=" color: #e0001a;">AIR INDIA <i class="fas fa-plane"></i> </b>
+        </div>
+    </div>
+
+    <div class="ticket-info">
+        <div class="info-block">
+            <h3>Flight Details</h3>
+            <p><strong>Departure:</strong> {{ f.departure_city }} at {{ f.departure_time }}</p>
+            <p><strong>Arrival:</strong> {{ f.arrival_city }} at {{ f.arrival_time }}</p>
+            <p><strong>Airline:</strong> {{ f.airline }}</p>
+            <p><strong>Flight Duration:</strong> {{ f.duration }}</p>
+        </div>
+        <div class="info-block">
+            <h3>Passenger Information</h3>
+            
+            {% if b.num_passengers == 4 %}
+            <p><strong>Passengers :</strong>{{passenger_names.pass1}}, {{passenger_names.pass2}}, {{passenger_names.pass3}}, {{passenger_names.pass4}} </p>
+            {% else  %}
+                {% if b.num_passengers == 3 %}
+                <p><strong>Passengers :</strong>{{passenger_names.pass1}}, {{passenger_names.pass2}}, {{passenger_names.pass3}}</p>
+                {% else %}
+                    {% if b.num_passengers == 2 %}
+                    <p><strong>Passengers :</strong>{{passenger_names.pass1}}, {{passenger_names.pass2}} </p>
+                    {% else %}
+                    <p><strong>Passengers :</strong> {{passenger_names.pass1}} </p>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+             <!-- Replace with dynamic passenger name -->
+          
+            <p><strong>Seat Number:</strong> {{ b.seat_number }}</p>
+            <p><strong>Checked Baggage:</strong> 23 kg</p>
+            <p><strong>Extra Baggage:</strong> {{ b.extra_baggage }} kg</p>
+        </div>
+    </div>
+
+    <div class="ticket-footer">
+        <p><strong>Total Amount Paid:</strong> INR {{ amount }}</p>
+        <p><strong>Refund Fee:</strong> INR {{refund_fee}}</p>
+        <p>This ticket serves as a proof of payment and can be used for accounting purposes.</p>
+        <p>Safe travels!</p>
+    </div>
+</div>
+
+<!-- Print Button -->
+<button class="print-button" onclick="window.print()">Print Ticket</button>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+.card {
+  border: 3px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.card img {
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.card p {
+  color: gray;
+}

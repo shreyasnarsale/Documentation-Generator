@@ -1,0 +1,9 @@
+<h1>Update Employee</h1>
+<form method="POST">
+    {% csrf_token %}
+    Name : <input type="text" name="name" value="{{ employee.name }}" placeholder="Employee Name" required><br>
+    Email :  <input type="email" name="email" value="{{ employee.email }}"  required><br>
+    password : <input type="password" name="password" placeholder="Employee password" required><br>
+        <button type="submit">Update Employee</button>
+     
+</form>

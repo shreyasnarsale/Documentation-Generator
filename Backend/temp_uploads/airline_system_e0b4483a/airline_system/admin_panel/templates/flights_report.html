@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #e0001a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #e0001a;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Flight Report</h1>
+    
+
+    {% comment %} <div class="mb-4">
+        <form method="POST">
+        {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-4">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" required>
+                </div>
+                <div class="col-md-4">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn btn-primary btn-block">Generate Report</button>
+                </div>
+            </div>
+        </form>
+    </div> {% endcomment %}
+
+    {% if flights %}
+
+    <br> Total Flights : {{total_flights}} <br>
+    
+    <br> Advanced Report : <a href="https://databot-dxddfnc9covoubmvezfngf.streamlit.app/"> <button>Go</button></a> </td> <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Departure City</th>
+                    <th>Arrival City</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Time</th>
+                    <th>Price</th>
+                    <th>Total Seats</th>
+                    <th>Remove</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for flight in flights %}
+                <tr>
+                    <td>{{ flight.flight_number }}</td>
+                    <td>{{ flight.departure_city }}</td>
+                    <td>{{ flight.arrival_city }}</td>
+                    <td>{{ flight.departure_time }}</td>
+                    <td>{{ flight.arrival_time }}</td>
+                    <td>{{ flight.price }}</td>
+                    <td>{{ flight.total_seats }}</td>
+                    <td><a href="{% url 'remove_flight' flight.id %}"> <button>Delete</button></a> </td>
+                    <td><a href="{% url 'update_flight' flight.id %}"> <button>Update</button></a> </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No flights found.</p>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'download_flight_report' %}" class="btn btn-success">Download Detailed Report</a>
+    </div>
+
+</body>
+
+</html>
